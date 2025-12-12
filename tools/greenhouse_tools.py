@@ -1,7 +1,7 @@
 import requests
 from llama_index.core.tools import FunctionTool
 
-def search_greenhouse_jobs(company: str, keyword: str):
+def search_greenhouse_jobs(company: str, keyword: str, location: str):
     """
     Search jobs from a company's Greenhouse job board.
     """
@@ -15,6 +15,8 @@ def search_greenhouse_jobs(company: str, keyword: str):
 
     matching_jobs = []
     for job in jobs:
+        if location.lower() not in job["location"]["name"].lower():
+            continue  
         if keyword.lower() in job["title"].lower():
             matching_jobs.append({
                 "title": job["title"],
@@ -28,5 +30,5 @@ def search_greenhouse_jobs(company: str, keyword: str):
 search_jobs_tool = FunctionTool.from_defaults(
     fn=search_greenhouse_jobs,
     name="search_greenhouse_jobs",
-    description="Searches job listings on Greenhouse by company and keyword."
+    description="Searches job listings on Greenhouse by company, keyword, and location."
 )

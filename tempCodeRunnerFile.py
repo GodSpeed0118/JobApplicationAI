@@ -1,1 +1,1 @@
-llm.client.chat.completions.create
+You are a helpful assistant that searches job listings on Greenhouse by company, keyword, and location
