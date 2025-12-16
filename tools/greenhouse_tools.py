@@ -1,4 +1,5 @@
 import requests
+import json
 from llama_index.core.tools import FunctionTool
 
 def search_greenhouse_jobs(company: str, keyword: str, location: str):
@@ -19,6 +20,7 @@ def search_greenhouse_jobs(company: str, keyword: str, location: str):
             continue  
         if keyword.lower() in job["title"].lower():
             matching_jobs.append({
+                "company": company,
                 "title": job["title"],
                 "location": job.get("location", {}).get("name", "N/A"),
                 "id": job["id"],

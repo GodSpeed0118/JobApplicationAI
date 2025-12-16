@@ -2,15 +2,17 @@ import asyncio
 from llama_index.core.agent.workflow import FunctionAgent
 from llama_index.llms.openai import OpenAI
 from tools.greenhouse_tools import search_jobs_tool
+from tools.resume_tools import extract_keywords_tool
+from tools.greenhouse_job_description import greenhouse_job_details_tool
 from dotenv import load_dotenv
 load_dotenv()
 
 
 async def main():
     agent = FunctionAgent(
-        tools=[search_jobs_tool],
+        tools=[search_jobs_tool, greenhouse_job_details_tool],
         llm=OpenAI(model="gpt-4o-mini"),
-        system_prompt="You are a helpful assistant that searches job listings on Greenhouse by company, keyword, and location",
+        system_prompt = "You are a helpful assistant that searches job listings on Greenhouse by company, keyword, and location and gives the important keywords associated with the job description",
     )
 
     response = await agent.run("Find me software engineer jobs at Stripe in San Francisco")
