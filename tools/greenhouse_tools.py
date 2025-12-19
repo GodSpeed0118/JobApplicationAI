@@ -27,7 +27,10 @@ def search_greenhouse_jobs(company: str, keyword: str, location: str):
                 "absolute_url": job["absolute_url"],
             })
 
-    return matching_jobs or f"No jobs found for keyword '{keyword}'."
+    if not matching_jobs:
+        return f"No jobs found for keyword '{keyword}' at {company} in {location}."
+    
+    return json.dumps(matching_jobs, indent=2)
 
 search_jobs_tool = FunctionTool.from_defaults(
     fn=search_greenhouse_jobs,
